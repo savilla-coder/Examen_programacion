@@ -11,8 +11,9 @@ def menu():
         print("Bienvenido al Registrador S-S,por favor seleccione una opción ")
         print("1. Ingresar asistencia")
         print("2. Mostrar asistencia")
-        print("3. Eliminar asistencia")
-        print("4. Salir")
+        print("3. Editar asistencia")
+        print("4. Eliminar asistencia")
+        print("5. Salir")
 
         opcion = input("Seleccione una opción: ").strip()
 
@@ -21,13 +22,15 @@ def menu():
         elif opcion == "2":
             mostrar_asistencia()
         elif opcion == "3":
-            eliminar_asistencia()
+            editar_asistencia()
         elif opcion == "4":
+            eliminar_asistencia()
+        elif opcion == "5":
             print("="*60)
             print("Muchas gracias por usar el Registrador S-S, Cerrando el programa")
             break
         else:
-            print("Opción inválida. Por favor, ingrese de nuevo (1, 2, 3 o 4).")
+            print("Opción inválida. Por favor, ingrese de nuevo (1, 2, 3, 4 o 5).")
     #Exception es para que salga error en la parte especifica del fallo 
     except Exception as e:
         print(f"Ocurrió un error inesperado en el menú: {e}")
