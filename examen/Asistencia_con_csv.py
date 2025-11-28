@@ -1,14 +1,44 @@
 # =================================================================
 # REGISTRO SIMPLE DE ASISTENCIA
 # Script en Python para registrar, mostrar y eliminar la asistencia
-# de personas usando un archivo de texto (asistencia.txt).
+# Gestión de asistencia con CSV usando pandas
 # =================================================================
+#Añadimos librerias pandas para leer y crear un csv
+import pandas as pd
+import os # Importar el módulo os para verificar la existencia del archivo
+
+# Nombre del archivo CSV
+CSV_archivo = "asistencia.csv"
+
+# Función para cargar los datos de asistencia desde el CSV
+def cargar_asistencia_df():
+    columnas_necesarias = ['nombre', 'apellido', 'estado', 'sexo']
+
+    if os.path.exists(CSV_archivo):
+        df = pd.read_csv(CSV_archivo)
+
+        # Agregar columnas faltantes
+        for columna in columnas_necesarias:
+            if columna not in df.columns:
+                df[columna] = pd.NA
+
+        # Reordenar columnas por si el CSV está desordenado
+        df = df[columnas_necesarias]
+
+        return df
+    else:
+        return pd.DataFrame(columns=columnas_necesarias)
+
+# Función para guardar los datos de asistencia en el CSV
+def guardar_asistencia_df(df):
+    df.to_csv(CSV_archivo, index=False)
+
 #definimos el menu, ademas de poner un while para entrar en un bucle donde el usuario deba elegir las opciones 1, 2, 3 o 4
 def menu():
     try:
       while True:
         print("-"*60)
-        print("Bienvenido al Registrador S-S,por favor seleccione una opción ")
+        print("Bienvenido al Registrador S-S v2,por favor seleccione una opción ")
         print("1. Ingresar asistencia")
         print("2. Mostrar asistencia")
         print("3. Editar asistencia")
