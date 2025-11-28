@@ -32,6 +32,61 @@ def cargar_asistencia_df():
 # Función para guardar los datos de asistencia en el CSV
 def guardar_asistencia_df(df):
     df.to_csv(CSV_archivo, index=False)
+    # Función para ingresar el sexo de la persona
+def ingresar_sexo():
+    sexo_opciones = {
+        1: "Hombre",
+        2: "Mujer",
+        3: "Otro"
+    }
+    sexo = 0
+    while sexo not in sexo_opciones:
+        try:
+            print("Ingrese el sexo de la persona:")
+            print("1. Hombre")
+            print("2. Mujer")
+            print("3. Otro")
+            sexo = int(input("Su opción: "))
+            if sexo not in sexo_opciones:
+                print("Opción inválida, intente de nuevo.")
+        except ValueError:
+            print("Entrada inválida. Por favor, ingrese un número (1, 2 o 3).")
+    return sexo_opciones[sexo]
+
+# Ingreso de personas con nombre y apellido, ademas de su asistencia
+def ingreso_asistencia():
+    nombre = str(input("Ingrese su nombre: ")).strip().capitalize()
+    apellido = str(input("Ingrese su apellido: ")).strip().capitalize()
+
+    # Solicitar el sexo
+    sexo_string = ingresar_sexo()
+
+    print("-"*60)
+    print("Ingrese si la persona está presente, llegó atrasado/a o ausente ")
+    print("1. Presente")
+    print("2. Atrasado/a")
+    print("3. Ausente")
+
+    estado_opciones = {
+        1: "Presente",
+        2: "Atrasado/a",
+        3: "Ausente"
+    }
+
+    llegada = 0
+    while llegada not in estado_opciones:
+        try:
+            llegada = int(input("Su opción: "))
+            if llegada not in estado_opciones:
+                print("Opción inválida, intente de nuevo.")
+        except ValueError:
+            print("Entrada inválida. Por favor, ingrese un número (1, 2 o 3).")
+
+    status_string = estado_opciones[llegada]
+    print(f"Ingresado al sistema {nombre} {apellido} ({sexo_string}), asistencia: {status_string}")
+
+    # Cargar el DataFrame existente
+    df = cargar_asistencia_df()
 
 #definimos el menu, ademas de poner un while para entrar en un bucle donde el usuario deba elegir las opciones 1, 2, 3 o 4
 def menu():
