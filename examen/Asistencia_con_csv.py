@@ -102,14 +102,48 @@ def mostrar_asistencia():
     df = cargar_asistencia_df()
 
     if not df.empty:
-        print("\n" + "-"*20 + "Lista de asistentes" + "-"*20)
-        # Mostrar el DataFrame con un índice para el usuario
-        print(df.to_string(index=True))
+        # Mostrar el DataFrame con un índice para el usuario (empezando desde 1)
+        df_display = df.copy()
+        df_display.index = df_display.index + 1 # Ajustar indice para mostrar
+        print(df_display.to_string(index=True))
         print("-"*60)
-        return df # Devolver el DataFrame para uso en eliminar_asistencia
+        return df # Devolver el DataFrame original (con índices 0-basados) para uso interno
     else:
         print("No hay asistentes registrados aún.")
         return pd.DataFrame()
+def eliminar_asistencia():
+    df = mostrar_asistencia()
+    if df.empty:
+        return
+
+    while True:
+        try:
+            seleccion_usuario = int(input("Ingrese el número del registro a eliminar (índice, 0 para cancelar): "))
+            if seleccion_usuario == 0:
+                print("Eliminación cancelada.")
+                return
+
+            # Convertir la selección del usuario (1) a un índice Dataframe (0)
+            index_df = seleccion_usuario -1
+            if index_df in df.index:
+                # Obtener el registro antes de eliminarlo para el mensaje de confirmación
+                registro_a_eliminar = df.loc[index_df]
+
+                # Eliminar la fila por índice
+                df = df.drop(index=index_df)
+
+                try:
+                    guardar_asistencia_df(df)
+                    print(f"Registro '{registro_a_eliminar['nombre']} {registro_a_eliminar['apellido']}' eliminado exitosamente.")
+                except IOError:
+                    print("Error al escribir en el archivo CSV de asistencia después de eliminar.")
+                return
+            else:
+                print("Número de registro inválido. Por favor, intente de nuevo (el índice mostrado).")
+        except ValueError:
+            print("Entrada inválida. Por favor, ingrese un número.")
+
+        
 
 #definimos el menu, ademas de poner un while para entrar en un bucle donde el usuario deba elegir las opciones 1, 2, 3 o 4
 def menu():
