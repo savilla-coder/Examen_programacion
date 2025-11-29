@@ -13,7 +13,10 @@ A esto también se le suma un CSV para tener un respaldo y tener la lista de for
 1.	Tener Python 3 en adelante instalado en tu entorno virtual.
 2.	Clona este repositorio o descarga el archivo ".py".
 3.	Abrir el archivo en la ruta donde esté instalado
-cd ruta/donde/esta/el/archivo
-6.	Seguir las indicaciones del programa
+```cd ruta/donde/esta/el/archivo
+5.  Instalar pandas en tu entorno virtual con este comando
+```pip install pandas
+4.	Seguir las indicaciones del programa
 # Requisitos:
-Tener una versión de Python 3 en adelante 
+Tener una versión de Python 3 en adelante
+Tener pandas en el entorno virtual
