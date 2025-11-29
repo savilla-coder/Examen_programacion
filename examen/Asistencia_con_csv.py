@@ -87,6 +87,18 @@ def ingreso_asistencia():
 
     # Cargar el DataFrame existente
     df = cargar_asistencia_df()
+    # Crear un nuevo DataFrame con la nueva entrada
+    nueva_entrada = pd.DataFrame([{'nombre': nombre, 'apellido': apellido, 'estado': status_string, 'sexo': sexo_string}])
+
+    # Concatenar la nueva entrada al DataFrame existente
+    df = pd.concat([df, nueva_entrada], ignore_index=True)
+
+    try:
+        guardar_asistencia_df(df)
+        print("Registro guardado exitosamente en asistencia.csv.")
+    except IOError:
+        print("Error al escribir en el archivo CSV de asistencia.")
+
 
 #definimos el menu, ademas de poner un while para entrar en un bucle donde el usuario deba elegir las opciones 1, 2, 3 o 4
 def menu():
