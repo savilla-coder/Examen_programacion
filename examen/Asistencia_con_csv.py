@@ -142,6 +142,70 @@ def eliminar_asistencia():
                 print("Número de registro inválido. Por favor, intente de nuevo (el índice mostrado).")
         except ValueError:
             print("Entrada inválida. Por favor, ingrese un número.")
+def editar_asistencia():
+    df = mostrar_asistencia()
+    if df.empty:
+        return
+
+    while True:
+        try:
+            seleccion_usuario = int(input("Ingrese el número del registro a editar (0 para cancelar): "))
+            if seleccion_usuario == 0:
+                print("Edición cancelada.")
+                return
+
+            # Convertir la selección del usuario (1) a un índice de DataFrame (0)
+            index_df = seleccion_usuario - 1
+
+            if index_df in df.index:
+                registro_a_editar = df.loc[index_df]
+                print(f"\nEditando registro: {registro_a_editar['nombre']} {registro_a_editar['apellido']}")
+                print(f"Nombre actual: {registro_a_editar['nombre']}")
+                nuevo_nombre = input("Ingrese nuevo nombre (dejar en blanco para mantener): ").strip().capitalize()
+                if nuevo_nombre:
+                    df.loc[index_df, 'nombre'] = nuevo_nombre
+
+                print(f"Apellido actual: {registro_a_editar['apellido']}")
+                nuevo_apellido = input("Ingrese nuevo apellido (dejar en blanco para mantener): ").strip().capitalize()
+                if nuevo_apellido:
+                    df.loc[index_df, 'apellido'] = nuevo_apellido
+
+                print(f"Sexo actual: {registro_a_editar['sexo']}")
+                cambiar_sexo = input("¿Desea cambiar el sexo? (s/n): ").strip().lower()
+                if cambiar_sexo == 's':
+                    df.loc[index_df, 'sexo'] = ingresar_sexo()
+
+                print(f"Estado actual: {registro_a_editar['estado']}")
+                print("Ingrese nuevo estado (dejar en blanco para mantener): ")
+                print("1. Presente")
+                print("2. Atrasado/a")
+                print("3. Ausente")
+                estado_opciones = {
+                    1: "Presente",
+                    2: "Atrasado/a",
+                    3: "Ausente"
+                }
+                nueva_llegada_input = input("Su opción: ").strip()
+                if nueva_llegada_input:
+                    try:
+                        nueva_llegada = int(nueva_llegada_input)
+                        if nueva_llegada in estado_opciones:
+                            df.loc[index_df, 'estado'] = estado_opciones[nueva_llegada]
+                        else:
+                            print("Opción de estado inválida, se mantendrá el estado actual.")
+                    except ValueError:
+                        print("Entrada de estado inválida, se mantendrá el estado actual.")
+
+                try:
+                    guardar_asistencia_df(df)
+                    print(f"Registro de '{df.loc[index_df, 'nombre']} {df.loc[index_df, 'apellido']}' editado exitosamente.")
+                except IOError:
+                    print("Error al escribir en el archivo CSV de asistencia después de editar.")
+                return
+            else:
+                print("Número de registro inválido. Por favor, intente de nuevo.")
+        except ValueError:
+            print("Entrada inválida. Por favor, ingrese un número.")
 
         
 
