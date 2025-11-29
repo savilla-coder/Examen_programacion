@@ -98,7 +98,18 @@ def ingreso_asistencia():
         print("Registro guardado exitosamente en asistencia.csv.")
     except IOError:
         print("Error al escribir en el archivo CSV de asistencia.")
+def mostrar_asistencia():
+    df = cargar_asistencia_df()
 
+    if not df.empty:
+        print("\n" + "-"*20 + "Lista de asistentes" + "-"*20)
+        # Mostrar el DataFrame con un índice para el usuario
+        print(df.to_string(index=True))
+        print("-"*60)
+        return df # Devolver el DataFrame para uso en eliminar_asistencia
+    else:
+        print("No hay asistentes registrados aún.")
+        return pd.DataFrame()
 
 #definimos el menu, ademas de poner un while para entrar en un bucle donde el usuario deba elegir las opciones 1, 2, 3 o 4
 def menu():
